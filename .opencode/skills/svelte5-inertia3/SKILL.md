@@ -29,9 +29,9 @@ O que existe hoje:
 
 O que **não** existe (ou está incompleto):
 
-- Inspeção de props entre PHP e Svelte 5 (o completion de chaves de props já existe).
 - Tratamento das features do Inertia v3 que mudam props (deferred, once, merge, optional, always) em inspeções.
 - Cobertura de teste para `Inertia::render()`/`Route::inertia()`: dependem do `PhpIndex` resolvendo as classes, então só `inertia()` é testado ponta a ponta.
+- Direção Svelte → PHP da inspeção (descartada de propósito: shared props e partial reloads).
 
 Não descreva essas features como prontas. Se precisar delas, implemente.
 
@@ -152,8 +152,15 @@ Implementado:
 
 Ainda pendente:
 
-- Inspeção de props declaradas no PHP e não usadas no Svelte (ou vice-versa). Cuidado com ruído: props compartilhadas, partial reloads e `$page.props` tornam o warning propenso a falso positivo.
-- Para deferred/merge/once, tratar o wrapper (`Inertia::defer(...)`) como o tipo do prop, não como uma chave nova — a chave continua sendo a do array, então já funciona; falta apenas usar isso em uma inspeção.
+- Inspeção de props declaradas no Svelte e não enviadas pelo PHP (direção inversa) — descartada por gerar falso positivo com shared props/partial reloads.
+- Para deferred/merge/once, tratar o wrapper (`Inertia::defer(...)`) como o tipo do prop, não como uma chave nova — a chave continua sendo a do array, então já funciona.
+
+#### Inspeção opt-in (`InertiaUndefinedPagePropInspection`)
+
+- Registrada em `plugin.xml` para `language="PHP"`, `enabledByDefault="false"`, `level="WEAK WARNING"`, grupo `Inertia.js`.
+- Marca a chave do array de props quando o componente Svelte alvo não a lê do `$props()`.
+- Não reporta nada (bail-out) quando: não é chamada Inertia; o array tem spread ou item sem chave string; a página não é `.svelte`; o componente não usa `$props()` (Svelte 4 `export let`); o destructuring tem `...rest`.
+- Só é ligada manualmente em Settings → Inspections.
 
 ### Fase 5 — Testes ✅
 

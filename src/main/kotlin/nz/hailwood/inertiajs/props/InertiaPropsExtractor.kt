@@ -34,14 +34,23 @@ object InertiaPropsExtractor {
      * `let { users, roles: userRoles, 'page-title': pageTitle } = $props();`
      * resolves to `[users, roles, page-title]`.
      */
-    fun sveltePropNames(page: PsiFile): List<String> {
+    fun sveltePropNames(page: PsiFile): List<String> = svelteProps(page)?.names ?: emptyList()
+
+    /** Destructured props of a Svelte 5 component, or null when it does not use `$props()`. */
+    fun svelteProps(page: PsiFile): SvelteProps? {
         val propsCall = PsiTreeUtil.collectElementsOfType(page, JSCallExpression::class.java)
             .firstOrNull { it.methodExpression?.text == PROPS_CALL }
-            ?: return emptyList()
+            ?: return null
 
-        val pattern = destructuringPatternBefore(propsCall) ?: return emptyList()
-        return parsePatternKeys(pattern)
+        val pattern = destructuringPatternBefore(propsCall) ?: return null
+
+        return SvelteProps(
+            names = parsePatternKeys(pattern),
+            hasRest = splitTopLevel(pattern, ',').any { it.trim().startsWith("...") },
+        )
     }
+
+    data class SvelteProps(val names: List<String>, val hasRest: Boolean)
 
     private fun destructuringPatternBefore(call: PsiElement): String? {
         var scope: PsiElement = call

@@ -24,15 +24,20 @@ object InertiaPageResolver {
     val pageExtensions: List<String> = listOf("js", "jsx", "ts", "tsx", "vue", "svelte")
 
     fun resolve(project: Project, pageName: String): PsiFile? {
+        val file = resolveFile(project, pageName) ?: return null
+        return PsiManager.getInstance(project).findFile(file)
+    }
+
+    /** Resolves a page name to its file, without requiring a registered file type (unlike [resolve]). */
+    fun resolveFile(project: Project, pageName: String): VirtualFile? {
         val pagesRoot = pagesRoot(project) ?: return null
         val normalized = pageName.trim('/')
         if (normalized.isEmpty()) return null
 
-        val psiManager = PsiManager.getInstance(project)
         for (extension in pageExtensions) {
             val file = findRelativeFile(pagesRoot, "$normalized.$extension") ?: continue
             if (file.isDirectory) continue
-            psiManager.findFile(file)?.let { return it }
+            return file
         }
 
         return null

@@ -7,6 +7,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 - Support for PHP 8 named arguments in `Inertia::render()`, `inertia()` and `Route::inertia()`
 - Prop key completion from the `$props()` of the target Svelte 5 page
+- Opt-in inspection for props that the target Svelte page does not declare in `$props()`
 - Gutter icon on Vue and Svelte page files (Svelte requires the Svelte plugin, optional dependency)
 - Test suite for the Inertia call matching, props extraction, page references and page resolution
 

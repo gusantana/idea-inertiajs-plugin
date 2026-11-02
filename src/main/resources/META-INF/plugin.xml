@@ -17,6 +17,14 @@
 
         <completion.contributor implementationClass="nz.hailwood.inertiajs.props.InertiaPropCompletionContributor" language="PHP"/>
 
+        <localInspection language="PHP"
+                         shortName="InertiaUndefinedPageProp"
+                         displayName="Prop is not declared in the Inertia page component"
+                         groupName="Inertia.js"
+                         enabledByDefault="false"
+                         level="WEAK WARNING"
+                         implementationClass="nz.hailwood.inertiajs.props.InertiaUndefinedPagePropInspection"/>
+
         <codeInsight.lineMarkerProvider language="JavaScript" implementationClass="nz.hailwood.inertiajs.InertiaRenderLineMarkerProvider"/>
 
         <spellchecker.bundledDictionaryProvider implementation="nz.hailwood.inertiajs.dictionary.InertiaBundledDictionaryProvider"/>
