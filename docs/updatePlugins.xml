@@ -11,7 +11,7 @@
 -->
 <plugins>
   <plugin id="nz.hailwood.inertiajs"
-          url="https://github.com/gusantana/idea-inertiajs-plugin/releases/download/v0.2.0/Inertia.js%20Support-0.2.0.zip"
+          url="https://github.com/gusantana/idea-inertiajs-plugin/releases/download/v0.2.0/Inertia.js.Support-0.2.0.zip"
           version="0.2.0">
     <idea-version since-build="262" until-build="262.*"/>
     <name>Inertia.js Support</name>
