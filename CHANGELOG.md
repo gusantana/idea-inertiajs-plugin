@@ -14,6 +14,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Test suite for the Inertia call matching, props extraction, page references and page resolution
 
 ### Changed
+- Renamed to **Inertia.js Storm** with the plugin ID `io.github.gusantana.inertiajs`; installs of the previous ID are not updated automatically
 - Ported to PhpStorm 2026.2.4 (262.*), IntelliJ Platform Gradle Plugin 2.19, Kotlin 2.4 and JDK 21
 - Page resolution no longer scans the pages directory on every lookup; completion now uses `FilenameIndex`
 - Dropped deprecated IntelliJ Platform APIs and the internal PHP `ParameterList.getParameter(String, int)`

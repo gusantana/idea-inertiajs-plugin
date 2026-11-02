@@ -173,4 +173,9 @@ tasks {
     wrapper {
         gradleVersion = properties("gradleVersion")
     }
+
+    // Keep the distribution name free of spaces: GitHub replaces them with dots in release asset URLs.
+    named<Zip>("buildPlugin") {
+        archiveFileName.set("inertiajs-storm-${properties("pluginVersion")}.zip")
+    }
 }

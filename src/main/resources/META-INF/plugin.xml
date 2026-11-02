@@ -1,7 +1,7 @@
 <idea-plugin>
-    <id>nz.hailwood.inertiajs</id>
+    <id>io.github.gusantana.inertiajs</id>
     <!--suppress PluginXmlCapitalization -->
-    <name>Inertia.js Support</name>
+    <name>Inertia.js Storm</name>
     <category>JavaScript Frameworks and Tools</category>
     <vendor url="https://github.com/gusantana">gusantana</vendor>
 

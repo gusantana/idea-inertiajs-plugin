@@ -1,23 +1,29 @@
-# PhpStorm and IntelliJ IDEA Inertia.js Plugin
+# Inertia.js Storm
 
-![Build](https://github.com/hailwood/idea-inertiajs-plugin/workflows/Build/badge.svg)
-[![Version](https://img.shields.io/jetbrains/plugin/v/17435.svg)](https://plugins.jetbrains.com/plugin/17435)
-[![Downloads](https://img.shields.io/jetbrains/plugin/d/17435.svg)](https://plugins.jetbrains.com/plugin/17435)
+PhpStorm and IntelliJ IDEA Ultimate plugin for [Inertia.js](https://inertiajs.com/).
+
+![Build](https://github.com/gusantana/idea-inertiajs-plugin/workflows/Build/badge.svg)
 
 <!-- Plugin description -->
-> **Note**
-> The [Laravel Idea plugin](https://laravel-idea.com/docs/inertia) provides all the features this plugin provides & more.  
-> Check it out as this plugin may be discontinued in the future.
+Provides support in PhpStorm and IntelliJ IDEA Ultimate for [Inertia.js](https://inertiajs.com/):
 
+- Navigation from `Inertia::render('Page')`, `inertia('Page')` and `Route::inertia('/url', 'Page')`, including PHP 8 named arguments
+- Page name completion resolved from the configured pages root
+- Gutter icon to find the PHP call sites of a page, on `.js`, `.jsx`, `.ts`, `.tsx`, `.vue` and `.svelte` files
+- Prop key completion from the `$props()` of the target Svelte 5 component
+- Opt-in inspection for props the Svelte page does not declare
 
-Provides support in PhpStorm and IntelliJ IDEA Ultimate for [Inertia.js](https://inertiajs.com/).
-
-
-- [💡 GitHub Issues](https://github.com/hailwood/idea-inertiajs-plugin/issues): feature requests and bug reports
-- [🙏🏼 Patreon](https://www.patreon.com/hailwood): Consider supporting this project if it helped you 😊
-- [🔌 Plugin Page](https://plugins.jetbrains.com/plugin/17435-inertia-js-support/): Get the plugin for PHPStorm
+Requires PhpStorm or IntelliJ IDEA Ultimate 2026.2.4. The Svelte plugin is optional and only needed for the `.svelte` features.
 <!-- Plugin description end -->
 
+## Installation
+
+- **From disk**: download the latest `inertiajs-storm-*.zip` from the [releases](https://github.com/gusantana/idea-inertiajs-plugin/releases) and use *Settings | Plugins | gear | Install Plugin from Disk*.
+- **Custom repository**: add `https://gusantana.github.io/idea-inertiajs-plugin/updatePlugins.xml` in *Settings | Plugins | gear | Manage Plugin Repositories*.
+- **Marketplace**: once the listing is approved, install "Inertia.js Storm" from the Marketplace tab.
+
 ## Credits
+
+- Forked from [hailwood/idea-inertiajs-plugin](https://github.com/hailwood/idea-inertiajs-plugin), ported to PhpStorm 2026.2 and extended with Inertia v3 and Svelte 5 support.
 - [Inertia.js](https://inertiajs.com/) - The reason for this plugin
 - [Robbin "Roboroads" Schepers](https://github.com/Roboroads) - Inspiration for plugin structure

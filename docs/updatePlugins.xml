@@ -10,11 +10,11 @@
   version. The newest entry wins; keep older ones so users on old builds can still install.
 -->
 <plugins>
-  <plugin id="nz.hailwood.inertiajs"
-          url="https://github.com/gusantana/idea-inertiajs-plugin/releases/download/v0.2.0/Inertia.js.Support-0.2.0.zip"
+  <plugin id="io.github.gusantana.inertiajs"
+          url="https://github.com/gusantana/idea-inertiajs-plugin/releases/download/v0.2.0/inertiajs-storm-0.2.0.zip"
           version="0.2.0">
     <idea-version since-build="262" until-build="262.*"/>
-    <name>Inertia.js Support</name>
+    <name>Inertia.js Storm</name>
     <vendor url="https://github.com/gusantana">gusantana</vendor>
     <description><![CDATA[
       Inertia.js support for PhpStorm 2026.2: navigation from
