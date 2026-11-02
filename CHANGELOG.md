@@ -4,6 +4,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+
+## [0.2.0] - 2026-11-02
 ### Added
 - Support for PHP 8 named arguments in `Inertia::render()`, `inertia()` and `Route::inertia()`
 - Prop key completion from the `$props()` of the target Svelte 5 page
@@ -14,6 +16,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 - Ported to PhpStorm 2026.2.4 (262.*), IntelliJ Platform Gradle Plugin 2.19, Kotlin 2.4 and JDK 21
 - Page resolution no longer scans the pages directory on every lookup; completion now uses `FilenameIndex`
+- Dropped deprecated IntelliJ Platform APIs and the internal PHP `ParameterList.getParameter(String, int)`
 - Support for 2023.1 EAP
 
 ## [0.1.7]
