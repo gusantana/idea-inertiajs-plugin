@@ -31,10 +31,8 @@ class InertiaSettingsInterface(project: Project) : SearchableConfigurable {
 
     init {
         inertiaPagesRootField.addBrowseFolderListener(
-            "Path to Pages Root",
-            null,
             project,
-            FileChooserDescriptorFactory.createSingleFolderDescriptor()
+            FileChooserDescriptorFactory.createSingleFolderDescriptor().withTitle("Path to Pages Root")
         )
 
         setupTextFieldDefaultValue(
