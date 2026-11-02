@@ -3,7 +3,7 @@
     <!--suppress PluginXmlCapitalization -->
     <name>Inertia.js Support</name>
     <category>JavaScript Frameworks and Tools</category>
-    <vendor>hailwood</vendor>
+    <vendor url="https://github.com/gusantana">gusantana</vendor>
 
     <!-- Product and plugin compatibility requirements -->
     <!-- https://plugins.jetbrains.com/docs/intellij/plugin-compatibility.html -->
