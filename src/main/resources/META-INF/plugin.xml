@@ -15,6 +15,8 @@
 
     <extensions defaultExtensionNs="com.intellij">
 
+        <completion.contributor implementationClass="nz.hailwood.inertiajs.props.InertiaPropCompletionContributor" language="PHP"/>
+
         <codeInsight.lineMarkerProvider language="JavaScript" implementationClass="nz.hailwood.inertiajs.InertiaRenderLineMarkerProvider"/>
 
         <spellchecker.bundledDictionaryProvider implementation="nz.hailwood.inertiajs.dictionary.InertiaBundledDictionaryProvider"/>

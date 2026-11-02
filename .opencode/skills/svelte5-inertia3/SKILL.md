@@ -29,8 +29,8 @@ O que existe hoje:
 
 O que **não** existe (ou está incompleto):
 
-- Completion/inspeção de props entre PHP e Svelte 5 (`$props()`).
-- Tratamento das features do Inertia v3 que mudam props (deferred, once, merge, optional, always) além da API de página.
+- Inspeção de props entre PHP e Svelte 5 (o completion de chaves de props já existe).
+- Tratamento das features do Inertia v3 que mudam props (deferred, once, merge, optional, always) em inspeções.
 - Testes desabilitados: `src/test/kotlin/.../*Test.kt` existe, mas as classes estão `@Ignore` até a Fase 5 ser validada.
 
 Não descreva essas features como prontas. Se precisar delas, implemente.
@@ -135,13 +135,25 @@ Implementado:
 
 Ainda pendente: extrair chaves de props de `Inertia::defer`, `->once()`, `Inertia::merge`, `Inertia::optional`, `Inertia::always` para usar na Fase 4.
 
-### Fase 4 — Props Svelte 5
+### Fase 4 — Props Svelte 5 ✅ (parcial)
 
-- Extraia as chaves do array passado no 2º argumento de `Inertia::render()`.
-- No Svelte 5, encontre `let { ... } = $props()` e compare com as chaves.
-- Ofereça completion das chaves e inspeção para props declaradas no PHP mas não usadas (ou vice-versa).
-- Para deferred/merge/once, trate o wrapper como o tipo do prop, não como uma chave nova.
-- Use o PSI do plugin Svelte para localizar o `$props()`; se não houver API estável, use o PSI de JavaScript no bloco `<script>` como fallback.
+Implementado:
+
+- `props/InertiaPropsExtractor.kt`
+  - `phpPropKeys(propsArgument)`: chaves do array de props (`ArrayCreationExpression.hashElements`, chave `StringLiteralExpression`).
+  - `sveltePropNames(page)`: encontra a chamada `$props()` no PSI de JavaScript do `<script>` (o plugin Svelte parseia o bloco como `SvelteJS`/`SvelteTS`, então os nós são `JSCallExpression`) e lê o padrão de desestruturação imediatamente antes.
+  - Aceita `let { users, roles: userRoles, 'page-title': pageTitle } = $props();` → `[users, roles, page-title]`.
+- `props/InertiaPropCompletionContributor.kt`
+  - Registrado em `plugin.xml` para `language="PHP"`.
+  - Ao digitar a **chave** de um item do array de props em `Inertia::render('Page', ['<caret>' => ...])`, sugere as props do `$props()` da página Svelte alvo.
+  - Funciona com `Inertia::render`, `inertia()` e `Route::inertia`, inclusive com named arguments (`props:`).
+  - Se a página não for `.svelte` (ou o plugin Svelte não estiver instalado), não sugere nada.
+- `navigation/InertiaCall.kt` centraliza o reconhecimento das três chamadas e a localização de `$component`/`$props`.
+
+Ainda pendente:
+
+- Inspeção de props declaradas no PHP e não usadas no Svelte (ou vice-versa). Cuidado com ruído: props compartilhadas, partial reloads e `$page.props` tornam o warning propenso a falso positivo.
+- Para deferred/merge/once, tratar o wrapper (`Inertia::defer(...)`) como o tipo do prop, não como uma chave nova — a chave continua sendo a do array, então já funciona; falta apenas usar isso em uma inspeção.
 
 ### Fase 5 — Testes ⏸️ (adiada)
 
