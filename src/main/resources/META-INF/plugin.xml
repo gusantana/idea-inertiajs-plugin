@@ -11,6 +11,7 @@
     <depends>com.intellij.modules.lang</depends>
     <depends>com.jetbrains.php</depends>
     <depends>JavaScript</depends>
+    <depends optional="true" config-file="svelte-support.xml">dev.blachut.svelte.lang</depends>
 
     <extensions defaultExtensionNs="com.intellij">
 

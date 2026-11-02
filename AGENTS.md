@@ -4,22 +4,26 @@ IntelliJ Platform plugin adding Inertia.js support to PhpStorm / IntelliJ IDEA U
 
 ## Commands
 
-- `./gradlew buildPlugin` — build the distributable zip. Also runs `patchPluginXml`, which injects version, since/until builds, and changelog HTML into the packaged `plugin.xml`.
+- `./gradlew buildPlugin` — build the distributable zip. Also patches `plugin.xml` with version, since/until builds, the `README.md` description, and the `CHANGELOG.md` change notes.
 - `./gradlew runIde` — launch a sandbox IDE with the plugin installed (logs at `build/idea-sandbox/system/log/idea.log`).
 - `./gradlew check` — CI's verification task. There are currently **no tests** (`src/test` does not exist); when adding tests under `src/test/kotlin`, run one with `./gradlew test --tests "nz.hailwood.inertiajs.SomeTest"`.
-- `./gradlew runPluginVerifier` — verify against supported IDEs; downloads IDE distributions and is slow.
-- `./gradlew cleanInspections runInspections` — Qodana inspections; set `QODANA_SHOW_REPORT=true` to open the report.
+- `./gradlew verifyPlugin` — run the IntelliJ Plugin Verifier against the IDEs configured in `intellijPlatform.pluginVerification`; downloads IDE distributions and is slow.
+- `./gradlew cleanInspections runInspections` — Qodana inspections (requires Docker).
 - `./gradlew patchChangelog --release-note="..."`, `signPlugin`, `publishPlugin` — release flow; require the env vars defined in `build.gradle.kts` (`PUBLISH_TOKEN`, `CERTIFICATE_CHAIN`, `PRIVATE_KEY`, `PRIVATE_KEY_PASSWORD`).
 - `.run/*.xml` are IntelliJ run configs mirroring the above tasks.
 
 ## Build constraints
 
-- `gradle.properties` is the source of truth for `pluginVersion`, `platformType` (IU), `platformVersion` (2022.3.1), and `pluginSinceBuild`/`pluginUntilBuild`. Bump the version there and add a matching `CHANGELOG.md` entry — the build reads both.
-- Target the 2022.3 platform APIs; the toolchain is intentionally old (Gradle 7.6, Kotlin 1.8.0, Gradle IntelliJ plugin 1.12.0). Do not introduce newer-platform APIs or a newer Kotlin version without updating the platform baseline.
-- `build.gradle.kts` uses `jvmToolchain(17)`; a JDK 17 toolchain must be available (the CI workflows still set up Java 11, so don't copy their JDK version).
-- The plugin requires the PHP and JavaScript platform plugins (`platformPlugins` in `gradle.properties`) and imports `com.jetbrains.php.*` / JS PSI classes. It only works in PhpStorm or IDEA Ultimate.
-- `patchPluginXml` extracts the text between `<!-- Plugin description -->` and `<!-- Plugin description end -->` in `README.md` and fails if either marker is missing.
+- `gradle.properties` is the source of truth for `pluginVersion`, `platformType` (PS), `platformVersion` (2026.2.4), `platformBundledPlugins`/`platformPlugins`, and `pluginSinceBuild`/`pluginUntilBuild`. Bump the version there and add a matching `CHANGELOG.md` entry — the build reads both.
+- Toolchain: Gradle 9.1.0, Kotlin 2.4.21, IntelliJ Platform Gradle Plugin 2.19.0, JDK 21. IntelliJ Platform Gradle Plugin 2.x requires Gradle 9.0+.
+- `build.gradle.kts` uses `jvmToolchain(21)`; a JDK 21 toolchain must be available (the CI workflows set up Java 21).
+- The plugin requires the PHP, JavaScript and CSS platform plugins (`platformBundledPlugins` in `gradle.properties`) and imports `com.jetbrains.php.*` / JS PSI classes. It only works in PhpStorm or IDEA Ultimate.
+- `intellijPlatform.pluginConfiguration.description` extracts the text between `<!-- Plugin description -->` and `<!-- Plugin description end -->` in `README.md` and fails if either marker is missing.
 - `src/main/resources/META-INF/plugin.xml` registers extensions only; version and change notes are generated into the packaged copy, so don't hand-write them there.
+
+## Svelte 5 / Inertia v3 roadmap
+
+The baseline is PhpStorm 2026.2.4. Svelte 5 and Inertia v3 support are **not implemented yet**; the executable plan lives in the `svelte5-inertia3` skill. Read it before touching Svelte/Inertia features.
 
 ## Architecture
 

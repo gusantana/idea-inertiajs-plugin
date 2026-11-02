@@ -1,0 +1,12 @@
+<idea-plugin>
+    <!--
+      Extensions that require the Svelte plugin ("dev.blachut.svelte.lang").
+      Loaded only when that plugin is installed, see the optional <depends> in plugin.xml.
+    -->
+    <extensions defaultExtensionNs="com.intellij">
+
+        <codeInsight.lineMarkerProvider language="SvelteHTML"
+                                        implementationClass="nz.hailwood.inertiajs.InertiaRenderLineMarkerProvider"/>
+
+    </extensions>
+</idea-plugin>

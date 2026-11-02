@@ -34,22 +34,27 @@ class InertiaPageReferenceProvider : PsiReferenceProvider() {
     }
 
     override fun getReferencesByElement(element: PsiElement, context: ProcessingContext): Array<PsiReference> {
-        val literalExpression: StringLiteralExpression = element as StringLiteralExpression
+        val literalExpression = element as? StringLiteralExpression ?: return PsiReference.EMPTY_ARRAY
 
-        val variableContext = literalExpression.context as ParameterList
+        val parameterList = literalExpression.parent as? ParameterList ?: return PsiReference.EMPTY_ARRAY
+        val functionCallContext = parameterList.context
 
-        val functionCallContext = variableContext.context
-
-        var isInertiaCall = false
-        if (functionCallContext is FunctionReferenceImpl) {
-            isInertiaCall = functionCallContext.name == "inertia"
-        } else if (functionCallContext is MethodReferenceImpl && isInertiaClassReference(functionCallContext)) {
-            isInertiaCall = variableContext.parameters[0] == literalExpression
-        } else if (functionCallContext is MethodReferenceImpl && isLaravelRouteClassReference(functionCallContext)) {
-            isInertiaCall = variableContext.parameters[1] == literalExpression
+        // Position of the `$component` argument in a positional call:
+        // - Inertia::render($component, $props)
+        // - inertia($component, $props, $rootView)
+        // - Route::inertia($uri, $component, $props)
+        val componentPosition = when {
+            functionCallContext is FunctionReferenceImpl && functionCallContext.name == "inertia" -> 0
+            functionCallContext is MethodReferenceImpl && isInertiaClassReference(functionCallContext) -> 0
+            functionCallContext is MethodReferenceImpl && isLaravelRouteClassReference(functionCallContext) -> 1
+            else -> return PsiReference.EMPTY_ARRAY
         }
 
-        if (!isInertiaCall) {
+        // PHP 8 named arguments: Inertia::render(component: 'Page'), Route::inertia(component: 'Page', uri: '/url').
+        // getParameter(name, index) returns the named argument when present, otherwise the positional one.
+        val componentArgument = parameterList.getParameter("component", componentPosition)
+
+        if (componentArgument !== literalExpression) {
             return PsiReference.EMPTY_ARRAY
         }
 

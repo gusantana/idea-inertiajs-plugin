@@ -9,17 +9,19 @@ import com.intellij.openapi.editor.markup.GutterIconRenderer
 import com.intellij.openapi.project.DumbService
 import com.intellij.openapi.util.TextRange
 import com.intellij.psi.PsiElement
+import com.intellij.psi.PsiFile
 import com.intellij.psi.search.searches.ReferencesSearch
 import com.intellij.psi.util.PsiEditorUtil
 import com.intellij.ui.awt.RelativePoint
 import nz.hailwood.inertiajs.navigation.InertiaPageReference
+import nz.hailwood.inertiajs.navigation.InertiaPageResolver
 import java.awt.event.MouseEvent
 
 class InertiaRenderLineMarkerProvider : LineMarkerProviderDescriptor(), GutterIconNavigationHandler<PsiElement> {
     override fun getName(): String = "InertiaRenderLineMarkerProvider"
 
     override fun collectSlowLineMarkers(elements: MutableList<out PsiElement>, result: MutableCollection<in LineMarkerInfo<*>>) {
-        val psiFile = elements.firstOrNull { it is JSFile } ?: return
+        val psiFile = elements.firstOrNull { isInertiaPageFile(it) } as? PsiFile ?: return
 
         val hasReferences = ReferencesSearch.search(psiFile, psiFile.useScope).anyMatch { it is InertiaPageReference }
 
@@ -34,6 +36,12 @@ class InertiaRenderLineMarkerProvider : LineMarkerProviderDescriptor(), GutterIc
             GutterIconRenderer.Alignment.RIGHT,
             { "Find usages of this page" }
         ))
+    }
+
+    private fun isInertiaPageFile(element: PsiElement): Boolean {
+        val file = element as? PsiFile ?: return false
+        if (file is JSFile) return true
+        return file.virtualFile?.extension in InertiaPageResolver.pageExtensions
     }
 
     override fun getLineMarkerInfo(element: PsiElement): LineMarkerInfo<*>? = null

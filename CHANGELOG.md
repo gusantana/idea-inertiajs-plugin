@@ -4,7 +4,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
-### Changed 
+### Added
+- Support for PHP 8 named arguments in `Inertia::render()`, `inertia()` and `Route::inertia()`
+- Gutter icon on Vue and Svelte page files (Svelte requires the Svelte plugin, optional dependency)
+
+### Changed
+- Ported to PhpStorm 2026.2.4 (262.*), IntelliJ Platform Gradle Plugin 2.19, Kotlin 2.4 and JDK 21
+- Page resolution no longer scans the pages directory on every lookup; completion now uses `FilenameIndex`
 - Support for 2023.1 EAP
 
 ## [0.1.7]
