@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Custom JetBrains plugin repository.
+
+  Add this file's public URL in the IDE:
+    Settings | Plugins | gear icon | Manage Plugin Repositories
+    https://gusantana.github.io/idea-inertiajs-plugin/updatePlugins.xml
+
+  On every release, add a <plugin> entry pointing to the release asset and bump the
+  version. The newest entry wins; keep older ones so users on old builds can still install.
+-->
+<plugins>
+  <plugin id="nz.hailwood.inertiajs"
+          url="https://github.com/gusantana/idea-inertiajs-plugin/releases/download/v0.2.0/Inertia.js%20Support-0.2.0.zip"
+          version="0.2.0">
+    <idea-version since-build="262" until-build="262.*"/>
+    <name>Inertia.js Support</name>
+    <vendor url="https://github.com/gusantana">gusantana</vendor>
+    <description><![CDATA[
+      Inertia.js support for PhpStorm 2026.2: navigation from
+      <code>Inertia::render()</code>, <code>inertia()</code> and <code>Route::inertia()</code>,
+      page name completion, Svelte 5 <code>$props()</code> completion and an opt-in inspection
+      for props the page does not declare.
+    ]]></description>
+    <change-notes><![CDATA[
+      <h3>0.2.0</h3>
+      <ul>
+        <li>Ported to PhpStorm 2026.2.4 (262.*), IntelliJ Platform Gradle Plugin 2.19, Kotlin 2.4, JDK 21</li>
+        <li>PHP 8 named arguments in <code>Inertia::render()</code>, <code>inertia()</code> and <code>Route::inertia()</code></li>
+        <li>Prop key completion from the <code>$props()</code> of the target Svelte 5 page</li>
+        <li>Opt-in inspection for props the Svelte page does not declare</li>
+        <li>Page resolution and completion now use direct VFS lookup and <code>FilenameIndex</code></li>
+      </ul>
+    ]]></change-notes>
+  </plugin>
+</plugins>
