@@ -15,6 +15,7 @@ import com.jetbrains.php.lang.psi.resolve.types.PhpType
  * - `Route::inertia($uri, $component, $props)`
  *
  * Named arguments (PHP 8) are resolved by name first, then by position.
+ * Only public PHP PSI is used: `ParameterList.getParameters()` plus the `name:` tokens around each argument.
  */
 object InertiaCall {
     private const val COMPONENT_ARGUMENT = "component"
@@ -38,11 +39,32 @@ object InertiaCall {
     }
 
     fun componentArgument(parameterList: ParameterList, position: Int): PsiElement? =
-        parameterList.getParameter(COMPONENT_ARGUMENT, position)
+        argument(parameterList, COMPONENT_ARGUMENT, position)
 
     /** The props argument follows `$component` in all three call forms. */
     fun propsArgument(parameterList: ParameterList, position: Int): PsiElement? =
-        parameterList.getParameter(PROPS_ARGUMENT, position + 1)
+        argument(parameterList, PROPS_ARGUMENT, position + 1)
+
+    /** The argument passed as `name: value`, falling back to the positional argument at [position]. */
+    private fun argument(parameterList: ParameterList, name: String, position: Int): PsiElement? {
+        val parameters = parameterList.parameters
+        return parameters.firstOrNull { namedArgumentName(it) == name } ?: parameters.getOrNull(position)
+    }
+
+    /** Returns `name` for `name: value`, or null for a positional argument. */
+    private fun namedArgumentName(argument: PsiElement): String? {
+        val colon = previousMeaningfulSibling(argument) ?: return null
+        if (colon.text != ":") return null
+        return previousMeaningfulSibling(colon)?.text
+    }
+
+    private fun previousMeaningfulSibling(element: PsiElement): PsiElement? {
+        var sibling = element.prevSibling
+        while (sibling != null && sibling.text.isBlank()) {
+            sibling = sibling.prevSibling
+        }
+        return sibling
+    }
 
     private fun isInertiaRender(methodRef: MethodReferenceImpl): Boolean =
         methodRef.name == "render" && matches(methodRef, inertiaPhpTypes)
