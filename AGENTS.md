@@ -6,7 +6,7 @@ IntelliJ Platform plugin adding Inertia.js support to PhpStorm / IntelliJ IDEA U
 
 - `./gradlew buildPlugin` — build the distributable zip. Also patches `plugin.xml` with version, since/until builds, the `README.md` description, and the `CHANGELOG.md` change notes.
 - `./gradlew runIde` — launch a sandbox IDE with the plugin installed (logs at `build/idea-sandbox/system/log/idea.log`).
-- `./gradlew check` — CI's verification task. There are currently **no tests** (`src/test` does not exist); when adding tests under `src/test/kotlin`, run one with `./gradlew test --tests "nz.hailwood.inertiajs.SomeTest"`.
+- `./gradlew check` — CI's verification task. Runs the IntelliJ Platform test suite under `src/test/kotlin`; run a single class with `./gradlew test --tests "nz.hailwood.inertiajs.SomeTest"`. Tests use `BasePlatformTestCase` for PSI-only checks and `HeavyPlatformTestCase` (real content root) for the resolver.
 - `./gradlew verifyPlugin` — run the IntelliJ Plugin Verifier against the IDEs configured in `intellijPlatform.pluginVerification`; downloads IDE distributions and is slow.
 - `./gradlew cleanInspections runInspections` — Qodana inspections (requires Docker).
 - `./gradlew patchChangelog --release-note="..."`, `signPlugin`, `publishPlugin` — release flow; require the env vars defined in `build.gradle.kts` (`PUBLISH_TOKEN`, `CERTIFICATE_CHAIN`, `PRIVATE_KEY`, `PRIVATE_KEY_PASSWORD`).

@@ -31,7 +31,7 @@ O que **não** existe (ou está incompleto):
 
 - Inspeção de props entre PHP e Svelte 5 (o completion de chaves de props já existe).
 - Tratamento das features do Inertia v3 que mudam props (deferred, once, merge, optional, always) em inspeções.
-- Testes desabilitados: `src/test/kotlin/.../*Test.kt` existe, mas as classes estão `@Ignore` até a Fase 5 ser validada.
+- Cobertura de teste para `Inertia::render()`/`Route::inertia()`: dependem do `PhpIndex` resolvendo as classes, então só `inertia()` é testado ponta a ponta.
 
 Não descreva essas features como prontas. Se precisar delas, implemente.
 
@@ -155,19 +155,20 @@ Ainda pendente:
 - Inspeção de props declaradas no PHP e não usadas no Svelte (ou vice-versa). Cuidado com ruído: props compartilhadas, partial reloads e `$page.props` tornam o warning propenso a falso positivo.
 - Para deferred/merge/once, tratar o wrapper (`Inertia::defer(...)`) como o tipo do prop, não como uma chave nova — a chave continua sendo a do array, então já funciona; falta apenas usar isso em uma inspeção.
 
-### Fase 5 — Testes ⏸️ (adiada)
+### Fase 5 — Testes ✅
 
-Existem testes escritos, porém **desabilitados** com `@Ignore` até serem validados:
+20 testes, todos verdes (`./gradlew test`).
 
-- `src/test/kotlin/nz/hailwood/inertiajs/navigation/InertiaPageResolverTest.kt` — `resolve` e `allPages`.
-- `src/test/kotlin/nz/hailwood/inertiajs/navigation/InertiaPageReferenceProviderTest.kt` — `Inertia::render` posicional/nomeado, `inertia()` e `Route::inertia` posicional/nomeado, e o caso negativo da URI.
+- `InertiaCallTest` (light) — reconhecimento de `inertia()` posicional/nomeado, `props` como argumento seguinte, e negativo para chamadas que não são Inertia. Usa só a função global porque ela é reconhecida pelo nome, sem depender do `PhpIndex`.
+- `InertiaPropsExtractorTest` (light) — chaves do array PHP, itens sem chave, `parsePatternKeys` (alias, chave entre aspas, default, `...rest`) e leitura de `$props()` num arquivo `.svelte` real.
+- `InertiaPageReferenceProviderTest` (light) — o contributor cria exatamente uma referência para o componente e ignora valores de props.
+- `InertiaPageResolverTest` (heavy) — `resolve`/`allPages` contra um **content root real em disco**, com `ModuleRootManager.modifiableModel` + `addContentEntry` e `IndexingTestUtil.waitUntilIndexesAreReady`.
 
-Para habilitar:
+Aprendizados para novos testes:
 
-- Remova o `@Ignore`, rode `./gradlew test` e ajuste os stubs PHP se o `PhpIndex` não resolver `Inertia\Inertia`/`Route` no fixture.
-- Use `IndexingTestUtil.waitUntilIndexesAreReady()` após criar arquivos (já usado nos testes).
-- **Atenção:** `BasePlatformTestCase.addFileToProject` cria arquivos num VFS temporário em memória. `InertiaPageResolver.resolve` usa `VfsUtil.findFileByIoFile`, que só enxerga arquivos em disco — por isso os testes do resolver falharam. Use `myFixture.tempDirFixture` (diretório real em disco) ou `TempDirTestFixture` em vez de `addFileToProject`.
-- Para o line marker em `.svelte`, é preciso adicionar o plugin Svelte ao classpath de teste (`plugin("dev.blachut.svelte.lang:262.10968.63")`).
+- `BasePlatformTestCase` usa VFS em memória: `VfsUtil.findFileByIoFile` não vê esses arquivos. Para o resolver, use `HeavyPlatformTestCase` + diretório real registrado como content root.
+- `Inertia::render()` e `Route::inertia()` exigem o `PhpIndex` resolvendo `Inertia\Inertia`/`Route`; por isso os testes de referência usam só `inertia()`.
+- O plugin Svelte está em `platformPlugins` (`dev.blachut.svelte.lang:262.10968.63`) para que fixtures `.svelte` tenham PSI.
 
 ### Fase 6 — Verificação
 
