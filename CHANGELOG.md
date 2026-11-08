@@ -5,6 +5,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.2.1] - 2026-11-08
+### Added
+- Support for PhpStorm and IntelliJ IDEA 2026.3 (`since-build` 262, `until-build` 263.*)
+- Plugin Verifier now checks both 2026.2.4 and 2026.3 for PhpStorm and IntelliJ IDEA Ultimate
+
 ## [0.2.0] - 2026-11-02
 ### Added
 - Support for PHP 8 named arguments in `Inertia::render()`, `inertia()` and `Route::inertia()`

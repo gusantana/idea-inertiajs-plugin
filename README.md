@@ -13,7 +13,7 @@ Provides support in PhpStorm and IntelliJ IDEA Ultimate for [Inertia.js](https:/
 - Prop key completion from the `$props()` of the target Svelte 5 component
 - Opt-in inspection for props the Svelte page does not declare
 
-Requires PhpStorm or IntelliJ IDEA Ultimate 2026.2.4. The Svelte plugin is optional and only needed for the `.svelte` features.
+Requires PhpStorm or IntelliJ IDEA Ultimate 2026.2.4 or newer (2026.2 and 2026.3 are supported). The Svelte plugin is optional and only needed for the `.svelte` features.
 <!-- Plugin description end -->
 
 ## Installation

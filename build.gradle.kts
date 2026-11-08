@@ -146,6 +146,8 @@ intellijPlatform {
     pluginVerification {
         ides {
             current()
+            // The plugin declares 262-263, so verify against the newest supported PhpStorm release too.
+            create(IntelliJPlatformType.PhpStorm, "2026.3")
         }
     }
 }

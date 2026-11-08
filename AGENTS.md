@@ -14,7 +14,8 @@ IntelliJ Platform plugin adding Inertia.js support to PhpStorm / IntelliJ IDEA U
 
 ## Build constraints
 
-- `gradle.properties` is the source of truth for `pluginVersion`, `platformType` (PS), `platformVersion` (2026.2.4), `platformBundledPlugins`/`platformPlugins`, and `pluginSinceBuild`/`pluginUntilBuild`. Bump the version there and add a matching `CHANGELOG.md` entry — the build reads both.
+- `gradle.properties` is the source of truth for `pluginVersion`, `platformType` (PS), `platformVersion` (2026.2.4), `platformBundledPlugins`/`platformPlugins`, and `pluginSinceBuild`/`pluginUntilBuild` (262/263.*). Bump the version there and add a matching `CHANGELOG.md` entry — the build reads both.
+- The build compiles against the **lowest** supported platform (2026.2.4) and `verifyPlugin` checks 2026.2.4, PhpStorm 2026.3 and IntelliJ IDEA Ultimate 2026.3. Do not use an API that only exists in 2026.3 without dropping 2026.2 support.
 - Toolchain: Gradle 9.1.0, Kotlin 2.4.21, IntelliJ Platform Gradle Plugin 2.19.0, JDK 21. IntelliJ Platform Gradle Plugin 2.x requires Gradle 9.0+.
 - `build.gradle.kts` uses `jvmToolchain(21)`; a JDK 21 toolchain must be available (the CI workflows set up Java 21).
 - The plugin requires the PHP, JavaScript and CSS platform plugins (`platformBundledPlugins` in `gradle.properties`) and imports `com.jetbrains.php.*` / JS PSI classes. It only works in PhpStorm or IDEA Ultimate.
@@ -23,7 +24,7 @@ IntelliJ Platform plugin adding Inertia.js support to PhpStorm / IntelliJ IDEA U
 
 ## Svelte 5 / Inertia v3 roadmap
 
-The baseline is PhpStorm 2026.2.4. Svelte 5 and Inertia v3 support are **not implemented yet**; the executable plan lives in the `svelte5-inertia3` skill. Read it before touching Svelte/Inertia features.
+The baseline is PhpStorm 2026.2.4, verified up to 2026.3 (263.*). Svelte 5 and Inertia v3 support are partially implemented; the executable plan lives in the `svelte5-inertia3` skill. Read it before touching Svelte/Inertia features.
 
 ## Architecture
 

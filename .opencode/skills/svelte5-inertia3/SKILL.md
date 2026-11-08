@@ -37,7 +37,8 @@ Não descreva essas features como prontas. Se precisar delas, implemente.
 
 ## Alvo do port
 
-- PhpStorm 2026.2.4 / IntelliJ Platform 2026.2.
+- PhpStorm 2026.2.4 até 2026.3 (`since-build` 262, `until-build` 263.*), IntelliJ IDEA Ultimate idem.
+- Compilação contra a **menor** plataforma suportada (2026.2.4); verificação também contra 2026.3.
 - IntelliJ Platform Gradle Plugin 2.x.
 - Kotlin 2.x, JDK 21.
 - Gradle wrapper compatível com o plugin 2.x.
@@ -84,8 +85,8 @@ Implementação:
 
 Valores aplicados no port (verificados em nov/2026):
 
-- `platformType = PS`, `platformVersion = 2026.2.4` (build `262.11879.104`).
-- `pluginSinceBuild = 262`, `pluginUntilBuild = 262.*`.
+- `platformType = PS`, `platformVersion = 2026.2.4` (build `262.11879.104`), compilando contra a menor versão suportada.
+- `pluginSinceBuild = 262`, `pluginUntilBuild = 263.*` (2026.2 e 2026.3; o 2026.3 é `263.7307.215` no PhpStorm e `263.7307.200` no IDEA).
 - `gradleVersion = 9.1.0` (o plugin 2.x exige Gradle 9.0+).
 - IntelliJ Platform Gradle Plugin `2.19.0`.
 - Kotlin `2.4.21` (a plataforma 2026.2 embarca Kotlin 2.4).
